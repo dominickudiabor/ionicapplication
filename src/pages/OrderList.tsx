@@ -1,51 +1,51 @@
 import React from 'react';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButtons, IonMenuButton, IonGrid, IonRow, IonCol } from '@ionic/react';
-import SpeakerItem from '../components/SpeakerItem';
-import { Speaker } from '../models/Speaker';
-import { Session } from '../models/Schedule';
+import OrderItem from '../components/OrderItem';
+import { Order } from '../models/Order';
+import { Delivery } from '../models/Schedule';
 import { connect } from '../data/connect';
 import * as selectors from '../data/selectors';
-import './SpeakerList.scss';
+import './OrderList.scss';
 
 interface OwnProps { };
 
 interface StateProps {
-  speakers: Speaker[];
-  speakerSessions: { [key: string]: Session[] };
+  orders: Order[];
+  orderDeliveries: { [key: string]: Delivery[] };
 };
 
 interface DispatchProps { };
 
-interface SpeakerListProps extends OwnProps, StateProps, DispatchProps { };
+interface OrderListProps extends OwnProps, StateProps, DispatchProps { };
 
-const SpeakerList: React.FC<SpeakerListProps> = ({ speakers, speakerSessions }) => {
+const OrderList: React.FC<OrderListProps> = ({ orders, orderDeliveries }) => {
 
   return (
-    <IonPage id="speaker-list">
+    <IonPage id="order-list">
       <IonHeader translucent={true}>
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Speakers</IonTitle>
+          <IonTitle>Orders</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent fullscreen={true}>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Speakers</IonTitle>
+            <IonTitle size="large">Orders</IonTitle>
           </IonToolbar>
         </IonHeader>
 
           <IonGrid fixed>
             <IonRow>
-              {speakers.map(speaker => (
-                <IonCol size="12" size-md="6" key={speaker.id}>
-                  <SpeakerItem
-                    key={speaker.id}
-                    speaker={speaker}
-                    sessions={speakerSessions[speaker.name]}
+              {orders.map(order => (
+                <IonCol size="12" size-md="6" key={order.id}>
+                  <OrderItem
+                    key={order.id}
+                    order={order}
+                    deliveries={orderDeliveries[order.name]}
                   />
                 </IonCol>
               ))}
@@ -58,8 +58,8 @@ const SpeakerList: React.FC<SpeakerListProps> = ({ speakers, speakerSessions }) 
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    speakers: selectors.getSpeakers(state),
-    speakerSessions: selectors.getSpeakerSessions(state)
+    orders: selectors.getOrders(state),
+    orderDeliveries: selectors.getOrderDeliveries(state)
   }),
-  component: React.memo(SpeakerList)
+  component: React.memo(OrderList)
 });

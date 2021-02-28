@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import './SpeakerDetail.scss';
+import './OrderDetail.scss';
 
 import { ActionSheetButton } from '@ionic/core';
 import { IonActionSheet, IonChip, IonIcon, IonHeader, IonLabel, IonToolbar, IonButtons, IonContent, IonButton, IonBackButton, IonPage } from '@ionic/react'
@@ -10,25 +10,25 @@ import { callOutline, callSharp, logoTwitter, logoGithub, logoInstagram, shareOu
 import { connect } from '../data/connect';
 import * as selectors from '../data/selectors';
 
-import { Speaker } from '../models/Speaker';
+import { Order } from '../models/Order';
 
 
 interface OwnProps extends RouteComponentProps {
-  speaker?: Speaker;
+  order?: Order;
 };
 
 interface StateProps {};
 
 interface DispatchProps {};
 
-interface SpeakerDetailProps extends OwnProps, StateProps, DispatchProps {};
+interface OrderDetailProps extends OwnProps, StateProps, DispatchProps {};
 
-const SpeakerDetail: React.FC<SpeakerDetailProps> = ({ speaker }) => {
+const OrderDetail: React.FC<OrderDetailProps> = ({ order }) => {
   const [showActionSheet, setShowActionSheet] = useState(false);
   const [actionSheetButtons, setActionSheetButtons] = useState<ActionSheetButton[]>([]);
   const [actionSheetHeader, setActionSheetHeader] = useState('');
 
-  function openSpeakerShare(speaker: Speaker) {
+  function openOrderShare(order: Order) {
     setActionSheetButtons([
       {
         text: 'Copy Link',
@@ -50,26 +50,26 @@ const SpeakerDetail: React.FC<SpeakerDetailProps> = ({ speaker }) => {
         }
       }
     ]);
-    setActionSheetHeader(`Share ${speaker.name}`);
+    setActionSheetHeader(`Share ${order.name}`);
     setShowActionSheet(true);
   }
 
-  function openContact(speaker: Speaker) {
+  function openContact(order: Order) {
     setActionSheetButtons([
       {
-        text: `Email ( ${speaker.email} )`,
+        text: `Email ( ${order.email} )`,
         handler: () => {
-          window.open('mailto:' + speaker.email);
+          window.open('mailto:' + order.email);
         }
       },
       {
-        text: `Call ( ${speaker.phone} )`,
+        text: `Call ( ${order.phone} )`,
         handler: () => {
-          window.open('tel:' + speaker.phone);
+          window.open('tel:' + order.phone);
         }
       }
     ]);
-    setActionSheetHeader(`Share ${speaker.name}`);
+    setActionSheetHeader(`Share ${order.name}`);
     setShowActionSheet(true);
   }
 
@@ -77,40 +77,40 @@ const SpeakerDetail: React.FC<SpeakerDetailProps> = ({ speaker }) => {
     window.open(url, '_blank');
   }
 
-  if (!speaker) {
-    return <div>Speaker not found</div>
+  if (!order) {
+    return <div>Order not found</div>
   }
 
   return (
-    <IonPage id="speaker-detail">
+    <IonPage id="order-detail">
       <IonContent>
         <IonHeader className="ion-no-border">
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton defaultHref="/tabs/speakers" />
+              <IonBackButton defaultHref="/tabs/orders" />
             </IonButtons>
             <IonButtons slot="end">
-              <IonButton onClick={() => openContact(speaker)}>
+              <IonButton onClick={() => openContact(order)}>
                 <IonIcon slot="icon-only" ios={callOutline} md={callSharp}></IonIcon>
               </IonButton>
-              <IonButton onClick={() => openSpeakerShare(speaker)}>
+              <IonButton onClick={() => openOrderShare(order)}>
                 <IonIcon slot="icon-only" ios={shareOutline} md={shareSharp}></IonIcon>
               </IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
 
-        <div className="speaker-background">
-          <img src={speaker.profilePic} alt={speaker.name}/>
-          <h2>{speaker.name}</h2>
+        <div className="order-background">
+          <img src={order.profilePic} alt={order.name}/>
+          <h2>{order.name}</h2>
         </div>
 
-        <div className="ion-padding speaker-detail">
-          <p>{speaker.about} Say hello on social media!</p>
+        <div className="ion-padding order-detail">
+          <p>{order.about} Say hello on social media!</p>
 
           <hr/>
 
-          <IonChip color="twitter" onClick={() => openExternalUrl(`https://twitter.com/${speaker.twitter}`)}>
+          <IonChip color="twitter" onClick={() => openExternalUrl(`https://twitter.com/${order.twitter}`)}>
             <IonIcon icon={logoTwitter}></IonIcon>
             <IonLabel>Twitter</IonLabel>
           </IonChip>
@@ -139,7 +139,7 @@ const SpeakerDetail: React.FC<SpeakerDetailProps> = ({ speaker }) => {
 
 export default connect({
   mapStateToProps: (state, ownProps) => ({
-    speaker: selectors.getSpeaker(state, ownProps)
+    order: selectors.getOrder(state, ownProps)
   }),
-  component: SpeakerDetail
+  component: OrderDetail
 });

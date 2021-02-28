@@ -5,16 +5,16 @@ export interface Schedule {
 
 export interface ScheduleGroup {
   time: string;
-  sessions: Session[];
+  deliveries: Delivery[];
 }
 
-export interface Session {
+export interface Delivery {
   id: number;
   timeStart: string;
   timeEnd: string;
   name: string;
   location: string;
   description: string;
-  speakerNames: string[];
+  orderNames: string[];
   tracks: string[];
 }

@@ -3,15 +3,15 @@ import React, { useState, useRef } from 'react';
 import { IonToolbar, IonContent, IonPage, IonButtons, IonTitle, IonMenuButton, IonSegment, IonSegmentButton, IonButton, IonIcon, IonSearchbar, IonRefresher, IonRefresherContent, IonToast, IonModal, IonHeader, getConfig } from '@ionic/react';
 import { options, search } from 'ionicons/icons';
 
-import SessionList from '../components/SessionList';
-import SessionListFilter from '../components/SessionListFilter';
+import DeliveryList from '../components/DeliveryList';
+import DeliveryListFilter from '../components/DeliveryListFilter';
 import './SchedulePage.scss'
 
 import ShareSocialFab from '../components/ShareSocialFab';
 
 import * as selectors from '../data/selectors';
 import { connect } from '../data/connect';
-import { setSearchText } from '../data/sessions/sessions.actions';
+import { setSearchText } from '../data/deliveries/deliveries.actions';
 import { Schedule } from '../models/Schedule';
 
 interface OwnProps { }
@@ -121,12 +121,12 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ favoritesSchedule, schedule
           onDidDismiss={() => setShowCompleteToast(false)}
         />
 
-        <SessionList
+        <DeliveryList
           schedule={schedule}
           listType={segment}
           hide={segment === 'favorites'}
         />
-        <SessionList
+        <DeliveryList
           // schedule={schedule}
           schedule={favoritesSchedule}
           listType={segment}
@@ -139,9 +139,9 @@ const SchedulePage: React.FC<SchedulePageProps> = ({ favoritesSchedule, schedule
         onDidDismiss={() => setShowFilterModal(false)}
         swipeToClose={true}
         presentingElement={pageRef.current!}
-        cssClass="session-list-filter"
+        cssClass="delivery-list-filter"
       >
-        <SessionListFilter
+        <DeliveryListFilter
           onDismissModal={() => setShowFilterModal(false)}
         />
       </IonModal>

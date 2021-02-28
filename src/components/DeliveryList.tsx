@@ -1,9 +1,9 @@
 import { IonItemDivider, IonItemGroup, IonLabel, IonList, IonListHeader, IonAlert, AlertButton } from '@ionic/react';
 import React, { useState, useCallback } from 'react';
-import { Schedule, Session } from '../models/Schedule';
-import SessionListItem from './SessionListItem';
+import { Schedule, Delivery } from '../models/Schedule';
+import DeliveryListItem from './DeliveryListItem';
 import { connect } from '../data/connect';
-import { addFavorite, removeFavorite } from '../data/sessions/sessions.actions';
+import { addFavorite, removeFavorite } from '../data/deliveries/deliveries.actions';
 
 interface OwnProps {
   schedule: Schedule;
@@ -12,7 +12,7 @@ interface OwnProps {
 }
 
 interface StateProps {
-  favoriteSessions: number[];
+  favoriteDeliveries: number[];
 }
 
 interface DispatchProps {
@@ -20,9 +20,9 @@ interface DispatchProps {
   removeFavorite: typeof removeFavorite;
 }
 
-interface SessionListProps extends OwnProps, StateProps, DispatchProps { };
+interface DeliveryListProps extends OwnProps, StateProps, DispatchProps { };
 
-const SessionList: React.FC<SessionListProps> = ({ addFavorite, removeFavorite, favoriteSessions, hide, schedule, listType }) => {
+const DeliveryList: React.FC<DeliveryListProps> = ({ addFavorite, removeFavorite, favoriteDeliveries, hide, schedule, listType }) => {
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertHeader, setAlertHeader] = useState('');
@@ -38,7 +38,7 @@ const SessionList: React.FC<SessionListProps> = ({ addFavorite, removeFavorite, 
     return (
       <IonList>
         <IonListHeader>
-          No Sessions Found
+          No Deliveries Found
         </IonListHeader>
       </IonList>
     );
@@ -54,14 +54,14 @@ const SessionList: React.FC<SessionListProps> = ({ addFavorite, removeFavorite, 
                 {group.time}
               </IonLabel>
             </IonItemDivider>
-            {group.sessions.map((session: Session, sessionIndex: number) => (
-              <SessionListItem
+            {group.deliveries.map((Delivery: Delivery, DeliveryIndex: number) => (
+              <DeliveryListItem
                 onShowAlert={handleShowAlert}
-                isFavorite={favoriteSessions.indexOf(session.id) > -1}
+                isFavorite={favoriteDeliveries.indexOf(Delivery.id) > -1}
                 onAddFavorite={addFavorite}
                 onRemoveFavorite={removeFavorite}
-                key={`group-${index}-${sessionIndex}`}
-                session={session}
+                key={`group-${index}-${DeliveryIndex}`}
+                delivery={Delivery}
                 listType={listType}
               />
             ))}
@@ -80,11 +80,11 @@ const SessionList: React.FC<SessionListProps> = ({ addFavorite, removeFavorite, 
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
-    favoriteSessions: state.data.favorites
+    favoriteDeliveries: state.data.favorites
   }),
   mapDispatchToProps: ({
     addFavorite,
     removeFavorite
   }),
-  component: SessionList
+  component: DeliveryList
 });

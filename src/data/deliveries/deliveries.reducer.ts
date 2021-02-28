@@ -1,7 +1,7 @@
-import { SessionsActions } from './sessions.actions';
+import { DeliveriesActions } from './deliveries.actions';
 import { ConfState } from './conf.state';
 
-export const sessionsReducer = (state: ConfState, action: SessionsActions): ConfState => {
+export const deliveriesReducer = (state: ConfState, action: DeliveriesActions): ConfState => {
   switch (action.type) {
     case 'set-conf-loading': {
       return { ...state, loading: action.isLoading };
@@ -10,10 +10,10 @@ export const sessionsReducer = (state: ConfState, action: SessionsActions): Conf
       return { ...state, ...action.data };
     }
     case 'add-favorite': {
-      return { ...state, favorites: [...(state.favorites), action.sessionId] };
+      return { ...state, favorites: [...(state.favorites), action.deliveryId] };
     }
     case 'remove-favorite': {
-      return { ...state, favorites: [...(state.favorites).filter(x => x !== action.sessionId)] };
+      return { ...state, favorites: [...(state.favorites).filter(x => x !== action.deliveryId)] };
     }
     case 'update-filtered-tracks': {
       return { ...state, filteredTracks: action.filteredTracks };

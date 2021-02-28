@@ -4,15 +4,15 @@ import { connect } from '../data/connect';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as selectors from '../data/selectors';
 import { starOutline, star, share, cloudDownload } from 'ionicons/icons';
-import './SessionDetail.scss';
-import { addFavorite, removeFavorite } from '../data/sessions/sessions.actions';
-import { Session } from '../models/Schedule';
+import './DeliveryDetail.scss';
+import { addFavorite, removeFavorite } from '../data/deliveries/deliveries.actions';
+import { Delivery } from '../models/Schedule';
 
 interface OwnProps extends RouteComponentProps { };
 
 interface StateProps {
-  session?: Session;
-  favoriteSessions: number[],
+  delivery?: Delivery;
+  favoriteDeliveries: number[],
 };
 
 interface DispatchProps {
@@ -20,26 +20,26 @@ interface DispatchProps {
   removeFavorite: typeof removeFavorite;
 }
 
-type SessionDetailProps = OwnProps & StateProps & DispatchProps;
+type DeliveryDetailProps = OwnProps & StateProps & DispatchProps;
 
-const SessionDetail: React.FC<SessionDetailProps> = ({ session, addFavorite, removeFavorite, favoriteSessions }) => {
+const DeliveryDetail: React.FC<DeliveryDetailProps> = ({ delivery, addFavorite, removeFavorite, favoriteDeliveries }) => {
 
-  if (!session) {
-    return <div>Session not found</div>
+  if (!delivery) {
+    return <div>Delivery not found</div>
   }
 
-  const isFavorite = favoriteSessions.indexOf(session.id) > -1;
-  
-  const toggleFavorite = () => { 
-    isFavorite ? removeFavorite(session.id) : addFavorite(session.id);
+  const isFavorite = favoriteDeliveries.indexOf(delivery.id) > -1;
+
+  const toggleFavorite = () => {
+    isFavorite ? removeFavorite(delivery.id) : addFavorite(delivery.id);
   };
-  const shareSession = () => { };
-  const sessionClick = (text: string) => { 
+  const shareDelivery = () => { };
+  const deliveryClick = (text: string) => {
     console.log(`Clicked ${text}`);
   };
 
   return (
-    <IonPage id="session-detail-page">
+    <IonPage id="delivery-detail-page">
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
@@ -52,7 +52,7 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ session, addFavorite, rem
                 <IonIcon slot="icon-only" icon={starOutline}></IonIcon>
               }
             </IonButton>
-            <IonButton onClick={() => shareSession}>
+            <IonButton onClick={() => shareDelivery}>
               <IonIcon slot="icon-only" icon={share}></IonIcon>
             </IonButton>
           </IonButtons>
@@ -60,32 +60,32 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ session, addFavorite, rem
       </IonHeader>
       <IonContent>
         <div className="ion-padding">
-          <h1>{session.name}</h1>
-          {session.tracks.map(track => (
-            <span key={track} className={`session-track-${track.toLowerCase()}`}>{track}</span>
+          <h1>{delivery.name}</h1>
+          {delivery.tracks.map(track => (
+            <span key={track} className={`delivery-track-${track.toLowerCase()}`}>{track}</span>
           ))}
-          <p>{session.description}</p>
+          <p>{delivery.description}</p>
           <IonText color="medium">
-            {session.timeStart} &ndash; {session.timeEnd}
+            {delivery.timeStart} &ndash; {delivery.timeEnd}
             <br />
-            {session.location}
+            {delivery.location}
           </IonText>
         </div>
         <IonList>
-          <IonItem onClick={() => sessionClick('watch')} button>
+          <IonItem onClick={() => deliveryClick('watch')} button>
             <IonLabel color="primary">Watch</IonLabel>
           </IonItem>
-          <IonItem onClick={() => sessionClick('add to calendar')} button>
+          <IonItem onClick={() => deliveryClick('add to calendar')} button>
             <IonLabel color="primary">Add to Calendar</IonLabel>
           </IonItem>
-          <IonItem onClick={() => sessionClick('mark as unwatched')} button>
+          <IonItem onClick={() => deliveryClick('mark as unwatched')} button>
             <IonLabel color="primary">Mark as Unwatched</IonLabel>
           </IonItem>
-          <IonItem onClick={() => sessionClick('download video')} button>
+          <IonItem onClick={() => deliveryClick('download video')} button>
             <IonLabel color="primary">Download Video</IonLabel>
             <IonIcon slot="end" color="primary" size="small" icon={cloudDownload}></IonIcon>
           </IonItem>
-          <IonItem onClick={() => sessionClick('leave feedback')} button>
+          <IonItem onClick={() => deliveryClick('leave feedback')} button>
             <IonLabel color="primary">Leave Feedback</IonLabel>
           </IonItem>
         </IonList>
@@ -96,12 +96,12 @@ const SessionDetail: React.FC<SessionDetailProps> = ({ session, addFavorite, rem
 
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state, OwnProps) => ({
-    session: selectors.getSession(state, OwnProps),
-    favoriteSessions: state.data.favorites
+    delivery: selectors.getDelivery(state, OwnProps),
+    favoriteDeliveries: state.data.favorites
   }),
   mapDispatchToProps: {
     addFavorite,
     removeFavorite
   },
-  component: withRouter(SessionDetail)
+  component: withRouter(DeliveryDetail)
 })

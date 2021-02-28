@@ -19,32 +19,32 @@ export const setData = (data: Partial<ConfState>) => ({
   data
 } as const);
 
-export const addFavorite = (sessionId: number) => ({
+export const addFavorite = (deliveryId: number) => ({
   type: 'add-favorite',
-  sessionId
+  deliveryId
 } as const);
 
-export const removeFavorite = (sessionId: number) => ({
+export const removeFavorite = (deliveryId: number) => ({
   type: 'remove-favorite',
-  sessionId
+  deliveryId
 } as const);
 
 export const updateFilteredTracks = (filteredTracks: string[]) => ({
-  type: 'update-filtered-tracks', 
-  filteredTracks 
+  type: 'update-filtered-tracks',
+  filteredTracks
 } as const);
 
-export const setSearchText = (searchText?: string) => ({ 
-  type: 'set-search-text', 
-  searchText 
+export const setSearchText = (searchText?: string) => ({
+  type: 'set-search-text',
+  searchText
 } as const);
 
-export const setMenuEnabled = (menuEnabled: boolean) => ({ 
-  type: 'set-menu-enabled', 
+export const setMenuEnabled = (menuEnabled: boolean) => ({
+  type: 'set-menu-enabled',
   menuEnabled
 } as const);
 
-export type SessionsActions =
+export type DeliveriesActions =
   | ActionType<typeof setLoading>
   | ActionType<typeof setData>
   | ActionType<typeof addFavorite>

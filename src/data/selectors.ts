@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect';
-import { Schedule, Session, ScheduleGroup } from '../models/Schedule';
+import { Schedule, Delivery, ScheduleGroup } from '../models/Schedule';
 import { AppState } from './state';
 
 const getSchedule = (state: AppState) => {
 
   return state.data.schedule
 };
-export const getSpeakers = (state: AppState) => state.data.speakers;
-const getSessions = (state: AppState) => state.data.sessions;
+export const getOrders = (state: AppState) => state.data.orders;
+const getDeliveries = (state: AppState) => state.data.deliveries;
 const getFilteredTracks = (state: AppState) => state.data.filteredTracks;
 const getFavoriteIds = (state: AppState) => state.data.favorites;
 const getSearchText = (state: AppState) => state.data.searchText;
@@ -17,18 +17,18 @@ export const getFilteredSchedule = createSelector(
   (schedule, filteredTracks) => {
     const groups: ScheduleGroup[] = [];
     schedule.groups.forEach(group => {
-      const sessions: Session[] = [];
-      group.sessions.forEach(session => {
-        session.tracks.forEach(track => {
+      const deliveries: Delivery[] = [];
+      group.deliveries.forEach(delivery => {
+        delivery.tracks.forEach(track => {
           if (filteredTracks.indexOf(track) > -1) {
-            sessions.push(session);
+            deliveries.push(delivery);
           }
         })
       })
-      if (sessions.length) {
+      if (deliveries.length) {
         const groupToAdd: ScheduleGroup = {
           time: group.time,
-          sessions
+          deliveries
         }
         groups.push(groupToAdd);
       }
@@ -50,11 +50,11 @@ export const getSearchedSchedule = createSelector(
     const groups: ScheduleGroup[] = [];
     schedule.groups.forEach(group => {
 
-      const sessions = group.sessions.filter(s => s.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
-      if (sessions.length) {
+      const deliveries = group.deliveries.filter(s => s.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
+      if (deliveries.length) {
         const groupToAdd: ScheduleGroup = {
           time: group.time,
-          sessions
+          deliveries
         }
         groups.push(groupToAdd);
       }
@@ -76,11 +76,11 @@ export const getGroupedFavorites = createSelector(
   (schedule, favoriteIds) => {
     const groups: ScheduleGroup[] = [];
     schedule.groups.forEach(group => {
-      const sessions = group.sessions.filter(s => favoriteIds.indexOf(s.id) > -1)
-      if (sessions.length) {
+      const deliveries = group.deliveries.filter(s => favoriteIds.indexOf(s.id) > -1)
+      if (deliveries.length) {
         const groupToAdd: ScheduleGroup = {
           time: group.time,
-          sessions
+          deliveries
         }
         groups.push(groupToAdd);
       }
@@ -97,33 +97,33 @@ const getIdParam = (_state: AppState, props: any) => {
   return props.match.params['id'];
 }
 
-export const getSession = createSelector(
-  getSessions, getIdParam,
-  (sessions, id) => {
-    return sessions.find(s => s.id === id);
+export const getDelivery = createSelector(
+  getDeliveries, getIdParam,
+  (deliveries, id) => {
+    return deliveries.find(s => s.id === id);
   }
 );
 
-export const getSpeaker = createSelector(
-  getSpeakers, getIdParam,
-  (speakers, id) => speakers.find(x => x.id === id)
+export const getOrder = createSelector(
+  getOrders, getIdParam,
+  (orders, id) => orders.find(x => x.id === id)
 );
 
-export const getSpeakerSessions = createSelector(
-  getSessions,
-  (sessions) => {
-    const speakerSessions: { [key: string]: Session[] } = {};
+export const getOrderDeliveries = createSelector(
+  getDeliveries,
+  (deliveries) => {
+    const orderDeliveries: { [key: string]: Delivery[] } = {};
 
-    sessions.forEach(session => {
-      session.speakerNames && session.speakerNames.forEach(name => {
-        if (speakerSessions[name]) {
-          speakerSessions[name].push(session);
+    deliveries.forEach(delivery => {
+      delivery.orderNames && delivery.orderNames.forEach(name => {
+        if (orderDeliveries[name]) {
+          orderDeliveries[name].push(delivery);
         } else {
-          speakerSessions[name] = [session];
+          orderDeliveries[name] = [delivery];
         }
       })
     });
-    return speakerSessions;
+    return orderDeliveries;
   }
 );
 

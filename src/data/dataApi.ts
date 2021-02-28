@@ -1,6 +1,6 @@
 import { Plugins } from '@capacitor/core';
-import { Schedule, Session } from '../models/Schedule';
-import { Speaker } from '../models/Speaker';
+import { Schedule, Delivery } from '../models/Schedule';
+import { Order } from '../models/Order';
 import { Location } from '../models/Location';
 
 const { Storage } = Plugins;
@@ -18,19 +18,19 @@ export const getConfData = async () => {
     fetch(locationsUrl)]);
   const responseData = await response[0].json();
   const schedule = responseData.schedule[0] as Schedule;
-  const sessions = parseSessions(schedule);
-  const speakers = responseData.speakers as Speaker[];
+  const deliveries = parseDeliveries(schedule);
+  const orders = responseData.orders as Order[];
   const locations = await response[1].json() as Location[];
-  const allTracks = sessions
-    .reduce((all, session) => all.concat(session.tracks), [] as string[])
+  const allTracks = deliveries
+    .reduce((all, delivery) => all.concat(delivery.tracks), [] as string[])
     .filter((trackName, index, array) => array.indexOf(trackName) === index)
     .sort();
 
   const data = {
     schedule,
-    sessions,
+    deliveries,
     locations,
-    speakers,
+    orders,
     allTracks,
     filteredTracks: [...allTracks]
   }
@@ -69,10 +69,10 @@ export const setUsernameData = async (username?: string) => {
   }
 }
 
-function parseSessions(schedule: Schedule) {
-  const sessions: Session[] = [];
+function parseDeliveries(schedule: Schedule) {
+  const deliveries: Delivery[] = [];
   schedule.groups.forEach(g => {
-    g.sessions.forEach(s => sessions.push(s))
+    g.deliveries.forEach(s => deliveries.push(s))
   });
-  return sessions;
+  return deliveries;
 }

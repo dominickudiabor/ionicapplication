@@ -1,12 +1,12 @@
 import { combineReducers } from './combineReducers';
-import { sessionsReducer } from './sessions/sessions.reducer';
+import { deliveriesReducer } from './deliveries/deliveries.reducer';
 import { userReducer } from './user/user.reducer';
 
 export const initialState: AppState = {
   data: {
     schedule: { groups: [] } as any,
-    sessions: [],
-    speakers: [],
+    deliveries: [],
+    orders: [],
     favorites: [],
     locations: [],
     allTracks: [],
@@ -24,7 +24,7 @@ export const initialState: AppState = {
 };
 
 export const reducers = combineReducers({
-  data: sessionsReducer,
+  data: deliveriesReducer,
   user: userReducer
 });
 

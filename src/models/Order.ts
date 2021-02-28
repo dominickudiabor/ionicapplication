@@ -1,4 +1,4 @@
-export interface Speaker {
+export interface Order {
   id: number;
   name: string;
   profilePic: string;
