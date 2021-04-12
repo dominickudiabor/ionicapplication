@@ -1,6 +1,7 @@
 import React from 'react';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButtons, IonMenuButton, IonGrid, IonRow, IonCol } from '@ionic/react';
 import OrderItem from '../components/OrderItem';
+import NewOrderFab from '../components/NewOrderFab';
 import { Order } from '../models/Order';
 import { Delivery } from '../models/Schedule';
 import { connect } from '../data/connect';
@@ -52,6 +53,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders, orderDeliveries }) => {
             </IonRow>
           </IonGrid>
       </IonContent>
+      <NewOrderFab/>
     </IonPage>
   );
 };
