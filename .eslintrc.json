@@ -1,0 +1,12 @@
+{
+  "extends": ["universe/native"],
+  "plugins": ["jsx-a11y", "react", "react-native"],
+  "rules": {
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "no-unused-vars": ["error"],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "sort-imports": "off",
+    "import/order": "off"
+  }
+}
