@@ -1,29 +1,39 @@
-import React from 'react';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButtons, IonMenuButton, IonGrid, IonRow, IonCol } from '@ionic/react';
-import OrderItem from '../components/OrderItem';
-import NewOrderFab from '../components/NewOrderFab';
-import { Order } from '../models/Order';
-import { Delivery } from '../models/Schedule';
-import { connect } from '../data/connect';
-import * as selectors from '../data/selectors';
-import './OrderList.scss';
+import React from "react";
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonPage,
+  IonButtons,
+  IonMenuButton,
+  IonGrid,
+  IonRow,
+  IonCol,
+} from "@ionic/react";
+import OrderItem from "../components/OrderItem";
+import NewOrderFab from "../components/NewOrderFab";
+import { Order } from "../models/Order";
+import { Delivery } from "../models/Schedule";
+import { connect } from "../data/connect";
+import * as selectors from "../data/selectors";
+import "./OrderList.scss";
 
-interface OwnProps { };
+interface OwnProps {}
 
 interface StateProps {
   orders: Order[];
   orderDeliveries: { [key: string]: Delivery[] };
-};
+}
 
-interface DispatchProps { };
+interface DispatchProps {}
 
-interface OrderListProps extends OwnProps, StateProps, DispatchProps { };
+interface OrderListProps extends OwnProps, StateProps, DispatchProps {}
 
 const OrderList: React.FC<OrderListProps> = ({ orders, orderDeliveries }) => {
-
   return (
     <IonPage id="order-list">
-      <IonHeader translucent={true}>
+      <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
             <IonMenuButton />
@@ -39,21 +49,21 @@ const OrderList: React.FC<OrderListProps> = ({ orders, orderDeliveries }) => {
           </IonToolbar>
         </IonHeader>
 
-          <IonGrid fixed>
-            <IonRow>
-              {orders.map(order => (
-                <IonCol size="12" size-md="6" key={order.id}>
-                  <OrderItem
-                    key={order.id}
-                    order={order}
-                    deliveries={orderDeliveries[order.name]}
-                  />
-                </IonCol>
-              ))}
-            </IonRow>
-          </IonGrid>
+        <IonGrid fixed>
+          <IonRow>
+            {orders.map((order) => (
+              <IonCol size="12" size-md="6" key={order.id}>
+                <OrderItem
+                  key={order.id}
+                  order={order}
+                  deliveries={orderDeliveries[order.name]}
+                />
+              </IonCol>
+            ))}
+          </IonRow>
+        </IonGrid>
       </IonContent>
-      <NewOrderFab/>
+      <NewOrderFab />
     </IonPage>
   );
 };
@@ -61,7 +71,7 @@ const OrderList: React.FC<OrderListProps> = ({ orders, orderDeliveries }) => {
 export default connect<OwnProps, StateProps, DispatchProps>({
   mapStateToProps: (state) => ({
     orders: selectors.getOrders(state),
-    orderDeliveries: selectors.getOrderDeliveries(state)
+    orderDeliveries: selectors.getOrderDeliveries(state),
   }),
-  component: React.memo(OrderList)
+  component: React.memo(OrderList),
 });
