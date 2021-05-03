@@ -1,7 +1,6 @@
 import React  from 'react';
-import { IonTabs, IonRouterOutlet, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/react';
+import { IonTabs, IonRouterOutlet, IonTabBar, IonTabButton,} from '@ionic/react';
 import { Route, Redirect } from 'react-router';
-import { calendar, addCircleOutline, location, cart, informationCircle, people } from 'ionicons/icons';
 import SchedulePage from './SchedulePage';
 import OrderList from './OrderList';
 import OrderDetail from './OrderDetail';
