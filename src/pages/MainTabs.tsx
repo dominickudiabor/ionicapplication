@@ -8,6 +8,8 @@ import OrderDetail from './OrderDetail';
 import DeliveryDetail from './DeliveryDetail';
 import MapView from './MapView';
 import About from './About';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClipboardList, faCoffee, faShoppingBasket, faUser } from '@fortawesome/free-solid-svg-icons';
 
 interface MainTabsProps { }
 
@@ -31,20 +33,13 @@ const MainTabs: React.FC<MainTabsProps> = () => {
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
         <IonTabButton tab="schedule" href="/tabs/schedule">
-          <IonIcon icon={calendar} />
-          <IonLabel>Deliveries</IonLabel>
+        <FontAwesomeIcon icon={faShoppingBasket}  size='2x'/>
         </IonTabButton>
         <IonTabButton tab="orders" href="/tabs/orders">
-          <IonIcon icon={cart} />
-          <IonLabel>Orders</IonLabel>
+        <FontAwesomeIcon icon={faClipboardList}  size='2x'/>
         </IonTabButton>
         <IonTabButton tab="map" href="/tabs/map">
-          <IonIcon icon={addCircleOutline} />
-          <IonLabel>Create Order</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="about" href="/tabs/about">
-          <IonIcon icon={people} />
-          <IonLabel>People and Sizes</IonLabel>
+        <FontAwesomeIcon icon={faUser}  size='2x'/>
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

@@ -85,7 +85,7 @@ const OrderDetail: React.FC<OrderDetailProps> = ({ order }) => {
     <IonPage id="order-detail">
       <IonContent>
         <IonHeader className="ion-no-border">
-          <IonToolbar>
+          <IonToolbar color="medium">
             <IonButtons slot="start">
               <IonBackButton defaultHref="/tabs/orders" />
             </IonButtons>

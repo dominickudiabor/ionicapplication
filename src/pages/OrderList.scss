@@ -4,6 +4,10 @@
     flex-direction: column;
   }
 
+  ion-card {
+    background: #fff;
+  }
+
   /* Due to the fact the cards are inside of columns the margins don't overlap
    * properly so we want to remove the extra margin between cards
    */

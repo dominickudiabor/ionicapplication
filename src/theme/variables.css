@@ -250,6 +250,9 @@
   --ion-toolbar-background: var(--ion-color-secondary);
   --ion-toolbar-color: #fdfaf4;
   --ion-toolbar-segment-color: #fdfaf4;
+
+  /* Card */
+  --ion-card-background: #fff;
 }
 
 /*
